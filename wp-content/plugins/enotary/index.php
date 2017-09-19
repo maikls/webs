@@ -46,7 +46,7 @@ foreach ($result_type as $types)
 	    define('LAW_TYPE_FL', $type);
 	    break;
 	case 3:
-	    define('LAW_TYPE_IP', 3);
+	    define('LAW_TYPE_IP', $type);
 	    break;
     }
 }
