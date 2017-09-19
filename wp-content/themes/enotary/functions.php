@@ -20,7 +20,7 @@ if (function_exists('add_theme_support')) {
 }
 register_nav_menus(
 	array(
-		'top_menu' => 'Шапка сайта'
+	    'top_menu' => 'Шапка сайта'
 	)
 );
 add_filter('widget_text', 'do_shortcode');

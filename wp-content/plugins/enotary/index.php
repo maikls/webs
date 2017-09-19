@@ -126,22 +126,50 @@ class enotary_plugin {
     }
 	
     public static function sc_platform($atts, $content = '') {
+	global $wpdb;
+	
         if (!defined('PLATFORMS')) {
             require_once($GLOBALS['enotary_plugin']->get_my_path('classes') . 'platforms.php');
         }
 		$params = shortcode_atts(array('type' => 'single'), $atts );
 		$html = new OneItem('', 'body-platform');
-		if ($params['type'] == 'list'){
+		if ($params['type'] == 'list')
+		{
+		    $type_platforms = $wpdb->get_blog_prefix() . 'platforms';
+		    $query_platforms = "select * from ".$type_platforms;
+		    $result_platforms = $wpdb->get_results($query_platforms);
+		    foreach ($result_platforms as $platform)
+		    {
+			$html->add_h($platform->name, 2);
+			$html->add_p("<strong><em>Описание площадки(портала):</em></strong> {$platform->descr}");
+			$html->add_p("<strong><em>Web-адрес площадки:</em></strong> {$platform->links}");
+			if ($platform->type == 1)
+			{
+			    $types = "Государственная площадка";
+			}
+			if ($platform->type == 2)
+			{
+			    $types = "Коммерческая площадка";
+			}
+
+			$html->add_p("<strong><em>Тип площадки:</em></strong> {$types}");
+			$html->add_p("<strong><em>Стоимость участия на площадке:</em></strong> {$platform->price} руб.");
+			$html->add_p("<strong><em>Примечание:</em></strong> {$platform->note}");
+			$html->add_div_ex('', 'platform-buttons');
+			$html->add_hr();
+		    }
+/*
 			$countPlatforms = getMaxIndex_Platforms();
 			for ($i = 1; $i <= $countPlatforms; $i++){
 				$platform = getPlatformByID($i);
 				$html->add_h($platform["title"], 2);
 				$html->add_p($platform["descr"]);
 				$html->add_p($platform["url"]);
-				$html->add_p("Примечание: {$platform['note']}");
+				$html->add_p("Примечание1 : {$platform['note']}");
 				$html->add_div_ex('', 'platform-buttons');
 				$html->add_hr();
 			}
+*/
 		}else{
 			$id = (get_query_var('page')) ? get_query_var('page') : 1;
 			$platform = getPlatformByID($id);
@@ -373,7 +401,7 @@ function eNotary_platforms(){
     $tb_name = $wpdb->get_blog_prefix() . 'platforms';
     $hidden_name = 'name_hidden';
     
-    $query = "select id, name, descr, links, type, price from ".$tb_name;
+    $query = "select id, name, descr, links, type, price, note from ".$tb_name;
     $result = $wpdb->get_results($query);
 
     // See if the user has posted us some information
@@ -385,34 +413,50 @@ function eNotary_platforms(){
 	$link = $_POST["links"];
 	$type = $_POST["type"];
 	$price = $_POST["price"];
+	$note = $_POST["note"];
 	
 	if ($type == 1)
 	{
 	    $price = 0;
 	}
 	
-//	$wpdb->insert(
-//	    $tb_name, array(
-//	    'name' => $name
-//	    )
-//	);
+	$links = '<a href="'.$link.'" target="_blank">'.$link.'</a>';
+	$wpdb->insert(
+	    $tb_name, array(
+	    'name' => $name,
+	    'descr' => $descr,
+	    'links' => $links,
+	    'type' => $type,
+	    'price' => $price,
+	    'note' => $note
+	    )
+	);
 	echo "<p>type = ".$type."</p>";
 	echo "<p>price = ".$price."</p>";
+	echo "<p>link = ".$links."</p>";
 	echo '<div class="updated"><p><strong>'. _e('Options saved.', 'mt_trans_domain').'</strong></p></div>';
     }
     echo '<div class="wrap">';
     echo '<h2>Платформы</h2>';
     echo '<h3>Существующие платформы</h3>';
     echo '<table class="table-admins" border="1">';
-    echo '<tr><th>id</th><th>Наименование площадки</th><th>Описание площадки</th><th>Ссылка на сайт площадки</th><th>Тип площадки</th><th>Стоимость участия на площадке</th></tr>';
+    echo '<tr><th>id</th><th>Наименование площадки</th><th>Описание площадки</th><th>Ссылка на сайт площадки</th><th>Тип площадки</th><th>Стоимость участия на площадке</th><th>Примечание</th></tr>';
     foreach ($result as $results){
 	echo '<tr>';
 	echo '<td>'.$results->id.'</td>';
 	echo '<td>'.$results->name.'</td>';
 	echo '<td>'.$results->descr.'</td>';
 	echo '<td>'.$results->links.'</td>';
-	echo '<td>'.$results->type.'</td>';
+	if ($results->type == 1)
+	{
+	    echo '<td>Государственная площадка</td>';
+	}
+	if ($results->type == 2)
+	{
+	    echo '<td>Коммерческая площадка</td>';
+	}
 	echo '<td>'.$results->price.'</td>';
+	echo '<td>'.$results->note.'</td>';
 	echo '</tr>';
     }
     echo '</table>';
@@ -449,6 +493,11 @@ function eNotary_platforms(){
     echo '<th>Стоимость участия на площадке</th>';
     echo '<td><input type="text" name="price" id="price" /></td>';
     echo '</tr>';
+    echo '<tr>';
+    echo '<th>Примечание</th>';
+    echo '<td><input type="text" name="note" id="note" /></td>';
+    echo '</tr>';
+
     echo '</table>';
 ?>
     <input type="hidden" name="action" value="update" />

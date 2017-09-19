@@ -1,9 +1,34 @@
 <?php
 
-function getMaxIndex_CSP( ) { return 3; }
-function getMaxIndex_Token( ) { return 4; }
-function getMaxIndex_Packages( ) { return 12; }
-function getMaxIndex_Platforms( ) { return 56; }
+function getMaxIndex_CSP()
+{
+    return 3; 
+}
+
+function getMaxIndex_Token()
+{ 
+    return 4; 
+}
+
+function getMaxIndex_Packages()
+{
+    return 12; 
+}
+
+function getMaxIndex_Platforms()
+{
+    global $wpdb;
+    
+    $type_platforms = $wpdb->get_blog_prefix() . 'platforms';
+    $query_platforms = "select count(*) as col_num from ".$type_platforms;
+    $result_platforms = $wpdb->get_results($query_platforms);
+    foreach ($result_platforms as $platform)
+    {
+	$index = $platform->col_num;
+    }
+//    return 56; 
+    return $index;
+}
 function getMaxIndex_Addons( ) { return 20; }
 
 
