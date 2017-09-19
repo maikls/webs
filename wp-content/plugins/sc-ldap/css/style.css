@@ -1,0 +1,97 @@
+/*----------------------------------------------------------------------------------*/
+.qua-ca{
+list-style-type: none;
+}
+
+div#ldaps {
+    margin-left: 15px;
+}
+
+div#ldaps table, .entry-content table {
+    font-size: 9px;
+}
+
+.ldap-table
+{
+    font-size: 12px;
+    border: 1px;
+    border-color: black;
+    border-style: double;
+    text-align: center;
+}
+
+.ldaps-table
+{
+    font-size: 12px;
+    border: 1px;
+    border-color: black;
+    border-style: double;
+    text-align: center;
+    width: 100%;
+}
+
+.ldaps-th
+{
+    border: 1px;
+    border-color: black;
+    border-style: double;
+    text-align: center;
+}
+
+.ldaps-td
+{
+    font-size: 12px;
+    border: 1px;
+    border-color: black;
+    border-style: double;
+    text-align: center;
+    width: 80%;
+}
+
+.demotable {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.demotable thead {
+  font-size: small;
+  text-align: right;
+}
+
+.demotable tbody td, .demotable tbody th {
+  border: 1px groove #000000;
+}
+
+.demotable a[href^="#all"], .demotable a[href="#close"] {
+  text-decoration: none;
+  border-bottom: 1px dashed;
+}
+
+/* здесь вся магия, если браузер не поддерживает структурные псевдоклассы, то список будет раскрыт, т.е. доступ к данным сохранится */
+[id^="all"] {
+  position: fixed;  /* чтобы страница "не подпрыгивала" к id */
+}
+[id^="all"]:target + table a[href^="#all"],
+[id^="all"]:not(:target) + table tbody tr:nth-of-type(n+2),  /* 2 - это порядковый номер tr, после которого строки будут изначально удалены (включительно) */
+[id^="all"]:not(:target) + table a[href="#close"] {
+  display: none;
+}
+
+.column-nav {
+    vertical-align: top;
+}
+
+div#qua-cert {
+    width: 300px;
+    margin-bottom: 30px;
+}
+
+#cert {
+     width: 300px;
+     display: block;
+     margin-left: 310px;
+     margin-top: -130px;
+     margin-bottom: 50px;
+}
+

@@ -1,0 +1,85 @@
+
+#tp-search {padding-top: 10px;padding-bottom: 10px;}
+#tp-search input {width: 98%;}
+#tp-search #search {padding: 10px; font-size: 18px; border-radius: 4px; border: solid 1px #A4CDE7; background-color: white; }
+.tp-search-sample {color: gray; font-size: 12px; padding: 5px;}
+
+
+#tp-items {display: block; min-height: 180px;}
+
+#tp-items .tp-item {
+	display: inline-block;
+	width: 49%;
+	height: 140px;
+	border: solid 1px #f0f0f0;
+	margin-bottom: 10px;	
+	overflow: hidden;
+	text-decoration: none;
+}
+
+#tp-items .tp-item:hover {
+	border: solid 1px #d0d0d0;
+	background-color: #f9f9f9;
+}
+
+
+#tp-items .tp-item img {float: left; width: 70px; height: 70px; margin-top: 5px; margin-left: 5px; }
+#tp-items .tp-info { margin-left: 80px; width: auto; overflow:hidden; padding-top: 5px;}
+
+#tp-items .tp-item h3, #tp-items .tp-item p {margin: 0px; padding: 1px; text-decoration: none;}
+#tp-items .tp-item h3 {font-size: 16px; font-weight: bold; color: #5E5E5E; max-height: 60px; overflow:hidden;}
+#tp-items .tp-item p {font-size: 13px; font-weight: normal; color: gray; overflow:hidden;}
+#tp-items .tp-item img {background-color: #ff9f9f9; border:none;}
+
+
+
+.btn-next { padding-left: 30px; padding-right: 30px;}
+
+.btn-next.disabled { 
+    background: none;
+    background-color: #c0c0c0; 
+    color: #a0a0a0;
+    border: none; 
+    opacity: 0.5;
+}
+
+.btn-next.step-3 {
+    background: none;
+    background-color: #449D44; 
+    color: white;
+    padding-left: 100px;
+    padding-right: 100px;
+    
+}
+
+
+#list-inputs { padding: 30px; background-color: white; margin-left: 5px; border-radius: 4px;}
+
+
+#wizard_order_preview {
+    padding: 30px;
+    margin: 5px;
+    
+    background-color: #F0F5F8;
+    border-radius: 4px;
+}
+
+
+
+.lbl-check { padding: 20px; margin: 10px; background-color: #fefefe; display: inline-block; border-radius: 0px; 
+border: none; width: 100%; }
+
+.lbl-check.active { background-color: #DFE9F2; border: none; }
+
+.el-block {display: block;}
+.requered {color: black; }
+
+
+.form-row-check {
+    display: block;
+    padding: 3px;
+    margin-bottom:15px;
+}
+
+#list-platforms li {margin-bottom: 10px;}
+.dropdown-menu { top: 90% !important; }

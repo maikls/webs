@@ -1,0 +1,71 @@
+.notebook,
+.notebook .tabs,
+.notebook .pages,
+.notebook .page
+{
+    margin: 0;
+    padding: 0;
+}
+  
+.notebook .tabs, .notebook .pages {
+    list-style: none;
+    overflow: hidden;
+}
+    
+.notebook .tabs li {
+    float: left;
+ }
+     
+.notebook .pages {
+    clear: both;
+}
+
+.notebook .tabs {
+    border-left: 1px solid gray;
+}
+ 
+.notebook .tabs li {
+    border-right: 1px solid gray;
+    border-top: 1px solid gray;
+}
+   
+.notebook .pages {
+    border: 1px solid gray;
+}
+
+.notebook .tabs {
+    font-family: Georgia;
+    font-size: 12px;
+    line-height: 30px;
+    height: 30px;
+}
+
+.notebook .tabs li {
+    background: #eee;
+    padding: 0 10px;
+    height: 30px;
+}
+
+.notebook .tabs a {
+    text-decoration: none;
+}
+
+.notebook .tabs li:hover {
+    background: #e5e5e5;
+}
+ 
+#notebook1 .pages, #notebook1 .page {
+    width: 90%;
+    height: 700px;
+}
+
+table.table-admins
+{
+    width: 80%;
+}
+
+table.form-table
+{
+    width: 80%;
+}
+
