@@ -138,11 +138,15 @@ class enotary_plugin {
 		    $type_platforms = $wpdb->get_blog_prefix() . 'platforms';
 		    $query_platforms = "select * from ".$type_platforms;
 		    $result_platforms = $wpdb->get_results($query_platforms);
+
+
+
+
 		    foreach ($result_platforms as $platform)
 		    {
 			$html->add_h($platform->name, 2);
 			$html->add_p("<strong><em>Описание площадки(портала):</em></strong> {$platform->descr}");
-			$html->add_p("<strong><em>Web-адрес площадки:</em></strong> {$platform->links}");
+			$html->add_p("<strong><em>Web-адрес площадки(портала):</em></strong> {$platform->links}");
 			if ($platform->type == 1)
 			{
 			    $types = "Государственная площадка";
@@ -152,34 +156,52 @@ class enotary_plugin {
 			    $types = "Коммерческая площадка";
 			}
 
-			$html->add_p("<strong><em>Тип площадки:</em></strong> {$types}");
-			$html->add_p("<strong><em>Стоимость участия на площадке:</em></strong> {$platform->price} руб.");
+			$html->add_p("<strong><em>Тип площадки(портала):</em></strong> {$types}");
+			$html->add_p("<strong><em>Стоимость участия на площадке(портале):</em></strong> {$platform->price} руб.");
 			$html->add_p("<strong><em>Примечание:</em></strong> {$platform->note}");
 			$html->add_div_ex('', 'platform-buttons');
 			$html->add_hr();
 		    }
-/*
-			$countPlatforms = getMaxIndex_Platforms();
-			for ($i = 1; $i <= $countPlatforms; $i++){
-				$platform = getPlatformByID($i);
-				$html->add_h($platform["title"], 2);
-				$html->add_p($platform["descr"]);
-				$html->add_p($platform["url"]);
-				$html->add_p("Примечание1 : {$platform['note']}");
-				$html->add_div_ex('', 'platform-buttons');
-				$html->add_hr();
+
+		}
+		else
+		{
+		    $id = (get_query_var('page')) ? get_query_var('page') : 1;
+		    $tb_pl = $wpdb->get_blog_prefix()."platforms";
+		    $query_pl = "select count(*) as num from ".$tb_pl." where id=".$id;
+		    $result_pl = $wpdb->get_results($query_pl);
+		    foreach ($result_pl as $num_pl)
+		    {
+			$count_pl = $num_pl->num;
+		    }
+		    
+		    if ($count_pl >0)
+		    {
+			$tb_pl = $wpdb->get_blog_prefix()."platforms";
+			$query_pl = "select * from ".$tb_pl." where id=".$id;
+			$result_pl = $wpdb->get_results($query_pl);
+			foreach ($result_pl as $platform)
+			{
+			    $html->add_h($platform->name, 2);
+			    $html->add_p("<strong><em>Описание площадки(портала):</em></strong> {$platform->descr}");
+			    $html->add_p("<strong><em>Web-адрес площадки(портала):</em></strong> {$platform->links}");
+			    if ($platform->type == 1)
+			    {
+				$types = "Государственная площадка";
+			    }
+			    if ($platform->type == 2)
+			    {
+				$types = "Коммерческая площадка";
+			    }
+
+			    $html->add_p("<strong><em>Тип площадки(портала):</em></strong> {$types}");
+			    $html->add_p("<strong><em>Стоимость участия на площадке(портале):</em></strong> {$platform->price} руб.");
+			    $html->add_p("<strong><em>Примечание:</em></strong> {$platform->note}");
+			    $html->add_div_ex('', 'platform-buttons');
 			}
-*/
-		}else{
-			$id = (get_query_var('page')) ? get_query_var('page') : 1;
-			$platform = getPlatformByID($id);
-			if ($platform){
-				$html->add_h($platform["title"], 2);
-				$html->add_p($platform["descr"]);
-				$html->add_p($platform["url"]);
-				$html->add_p("Примечание: {$platform['note']}");
-				$html->add_div_ex('', 'platform-buttons');
-			}else $html->add_h("Извините, площадка не найдена, попробуйте снова", 2);
+			
+		    }
+		    else $html->add_h("Извините, площадка не найдена, попробуйте снова", 2);
 		}
 		return $html->as_html();
     }
@@ -415,11 +437,6 @@ function eNotary_platforms(){
 	$price = $_POST["price"];
 	$note = $_POST["note"];
 	
-	if ($type == 1)
-	{
-	    $price = 0;
-	}
-	
 	$links = '<a href="'.$link.'" target="_blank">'.$link.'</a>';
 	$wpdb->insert(
 	    $tb_name, array(
@@ -431,10 +448,8 @@ function eNotary_platforms(){
 	    'note' => $note
 	    )
 	);
-	echo "<p>type = ".$type."</p>";
-	echo "<p>price = ".$price."</p>";
-	echo "<p>link = ".$links."</p>";
-	echo '<div class="updated"><p><strong>'. _e('Options saved.', 'mt_trans_domain').'</strong></p></div>';
+	echo '<div class="updated"><p><strong>'. _e('Option saved', 'mt_trans_domain').'</strong></p></div>';
+
     }
     echo '<div class="wrap">';
     echo '<h2>Платформы</h2>';
